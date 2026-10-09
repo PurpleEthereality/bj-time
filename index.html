@@ -1,0 +1,549 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>青春时光 - 北京时间</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="vendor/font-awesome/all.min.css">
+    <!-- 拆分后的CSS文件 -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- 套装样式（每套独立完整 CSS 包，通过 body.outfit-xxx 启用） -->
+    <link rel="stylesheet" href="css/outfits/macaron.css">
+    <link rel="stylesheet" href="css/outfits/kawaii.css">
+    <link rel="stylesheet" href="css/outfits/cyberpunk.css">
+    <link rel="stylesheet" href="css/outfits/editorial.css">
+    <link rel="stylesheet" href="css/outfits/vintage.css">
+</head>
+<body>
+    <div class="bg-container">
+        <div class="bg-layer active" id="bg-layer-1"></div>
+        <div class="bg-layer" id="bg-layer-2"></div>
+    </div>
+    
+    <div class="bg-loader" id="bgLoader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">背景加载中...</div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-clock"></i>
+                    <h1>青春时光</h1>
+                </div>
+                <div class="countdowns-container" id="topCountdowns">
+                    <span class="countdown-item gaokao-countdown" id="gaokaoCountdown">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span id="gaokaoText">高考倒计时计算中...</span>
+                    </span>
+                    <span class="next-exam-container" id="nextExamContainer">
+                        <span class="countdown-item next-exam" id="nextExam">
+                            <i class="fas fa-book-open"></i>
+                            <span id="nextExamText">下一科：语文</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="controls">
+                <button type="button" class="btn btn-outline" id="themeBtn" aria-label="切换主题">
+                    <i class="fas fa-sync-alt"></i>
+                    <span class="tooltip">切换主题</span>
+                </button>
+                <button type="button" class="btn" id="fullscreenBtn" aria-label="全屏显示">
+                    <i class="fas fa-expand"></i>
+                    <span class="tooltip">全屏显示</span>
+                </button>
+                <button type="button" class="btn" id="settingsBtn">
+                    <i class="fas fa-cog"></i> 设置
+                    <span class="tooltip">个性化设置</span>
+                </button>
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <div class="main-content">
+                <div class="time-section">
+                    <div class="date-display" id="dateDisplay">2023年10月15日 星期日</div>
+                    <div class="time-display">
+                        <span id="hours">14</span>
+                        <span class="colon" id="colonAfterHour">:</span>
+                        <span id="minutes">30</span>
+                        <span class="colon" id="colonAfterMinute">:</span>
+                        <span id="seconds">45</span>
+                        <span class="milliseconds">.<span id="milliseconds">789</span></span>
+                    </div>
+                </div>
+                
+                <div class="quote-section">
+                    <div class="quote-header">
+                        <h2><i class="fas fa-quote-left"></i> 每日金句</h2>
+                        <div class="api-status" id="apiStatusContainer">
+                            <div class="status-indicator" id="apiStatus"></div>
+                            <span id="apiStatusText">API正常</span>
+                            <div class="quote-progress-container">
+                                <div class="quote-progress-bar" id="quoteProgressBar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quote-content" id="quoteContent">
+                        <div class="quote-text">生活就像骑自行车，为了保持平衡，你必须不断前进。<span class="cursor"></span></div>
+                    </div>
+                    <div class="quote-author" id="quoteAuthor">—— 爱因斯坦 · 物理学家</div>
+                    <div class="quote-type" id="quoteType">哲学</div>
+                </div>
+            </div>
+            
+            <div class="countdown-sidebar" id="countdownSidebar">
+                <div class="countdown-panel" id="countdownPanel">
+                    <div class="countdown-panel-title">
+                        <i class="fas fa-calendar-days"></i> 倒数日
+                    </div>
+                    <div class="countdown-items-container" id="countdownPanelItems"></div>
+                    <div class="holiday-image-container">
+                        <img src="https://www.kanostar.top/holidays/img" alt="放假倒计时">
+                    </div>
+                </div>
+             </div>
+        </div>
+        
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-header">
+                <h2><i class="fas fa-cog"></i> 个性化设置</h2>
+                <div class="settings-buttons">
+                    <button type="button" class="btn btn-outline" id="cancelSettingsBtn">
+                        <i class="fas fa-times"></i> 取消更改
+                    </button>
+                    <button type="button" class="btn" id="saveSettingsBtn" style="margin-left: 10px;">
+                        <i class="fas fa-check"></i> 保存并退出
+                    </button>
+                </div>
+            </div>
+            
+            <div class="settings-grid" id="settingsGrid">
+                <!-- 左列：基本设置 -->
+                <div class="settings-column" id="settingsColumn1">
+                    <div class="setting-group" id="displaySettingsGroup">
+                        <div class="setting-group-header">
+                            <h3><i class="fas fa-desktop"></i> 基本设置</h3>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="setting-group-content">
+                            <div class="setting-section">
+                                <h4><i class="fas fa-clock"></i> 时间显示</h4>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-item"><input type="checkbox" id="showDate" checked> 显示日期</label>
+                                    <label class="checkbox-item"><input type="checkbox" id="showSeconds" checked> 显示秒钟</label>
+                                    <label class="checkbox-item"><input type="checkbox" id="showMilliseconds"> 显示毫秒</label>
+                                </div>
+                            </div>
+                            <div class="setting-section">
+                                <h4><i class="fas fa-eye"></i> 界面元素</h4>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-item"><input type="checkbox" id="showGaokao" checked> 显示高考倒计时</label>
+                                    <label class="checkbox-item"><input type="checkbox" id="showQuoteProgress" checked> 显示金句进度条</label>
+                                    <label class="checkbox-item"><input type="checkbox" id="showBgProgress" checked> 显示背景进度条</label>
+                                    <label class="checkbox-item"><input type="checkbox" id="showHolidayImage" checked> 显示放假倒计时图片</label>
+                                </div>
+                            </div>
+                            <div class="setting-section">
+                                <h4><i class="fas fa-th-large"></i> 布局优先级</h4>
+                                <div class="radio-group">
+                                    <label class="radio-item"><input type="radio" name="displayPriority" id="quotePriority" value="quote" checked> 金句优先</label>
+                                    <label class="radio-item"><input type="radio" name="displayPriority" id="timePriority" value="time"> 时间优先</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group" id="countdownSettingsGroup">
+                        <div class="setting-group-header">
+                            <h3><i class="fas fa-calendar-days"></i> 倒数日设置</h3>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="setting-group-content">
+                            <div class="setting-section">
+                                <h4><i class="fas fa-plus-circle"></i> 添加倒数日</h4>
+                                <div class="countdowns-form">
+                                    <div class="form-group">
+                                        <label for="countdownTitle">事件名称 (最多10字)</label>
+                                        <input type="text" id="countdownTitle" class="form-control" maxlength="10" placeholder="例如：期末考试">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="countdownDate">目标时间</label>
+                                        <input type="datetime-local" id="countdownDate" class="form-control">
+                                    </div>
+                                    <button type="button" class="btn" id="addCountdownBtn"><i class="fas fa-plus"></i> 添加倒数日</button>
+                                </div>
+                            </div>
+                            <div class="setting-section">
+                                <h4><i class="fas fa-list"></i> 我的倒数日</h4>
+                                <div class="countdowns-list" id="countdownsList"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group" id="subjectSettingsGroup">
+                        <div class="setting-group-header">
+                            <h3><i class="fas fa-book"></i> 高考设置</h3>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="setting-group-content">
+                            <p class="setting-desc">选择您需要参加的科目（未选中的科目将不在"下一科"提示中显示）</p>
+                            <div class="subject-group">
+                                <label class="subject-item"><input type="checkbox" name="ignoredSubject" value="语文" checked> 语文</label>
+                                <label class="subject-item"><input type="checkbox" name="ignoredSubject" value="数学" checked> 数学</label>
+                                <label class="subject-item"><input type="checkbox" name="ignoredSubject" value="英语" checked> 英语</label>
+                                <label class="subject-item"><input type="checkbox" name="ignoredSubject" value="物理"> 物理</label>
+                                <label class="subject-item"><input type="checkbox" name="ignoredSubject" value="历史"> 历史</label>
+                                <label class="subject-item"><input type="checkbox" name="ignoredSubject" value="化学"> 化学</label>
+                                <label class="subject-item"><input type="checkbox" name="ignoredSubject" value="地理"> 地理</label>
+                                <label class="subject-item"><input type="checkbox" name="ignoredSubject" value="政治"> 政治</label>
+                                <label class="subject-item"><input type="checkbox" name="ignoredSubject" value="生物"> 生物</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group" id="intervalSettingsGroup">
+                        <div class="setting-group-header">
+                            <h3><i class="fas fa-history"></i> 定时设置</h3>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="setting-group-content">
+                            <div class="interval-controls">
+                                <div class="interval-control">
+                                    <label for="quoteInterval"><i class="fas fa-quote-right"></i> 金句更换间隔</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="quoteInterval" min="0.5" step="0.5" value="1">
+                                        <span class="unit">分钟</span>
+                                    </div>
+                                </div>
+                                <div class="interval-control">
+                                    <label for="bgInterval"><i class="fas fa-image"></i> 背景更换间隔</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="bgInterval" min="0.5" step="0.5" value="30">
+                                        <span class="unit">分钟</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group" id="outfitSettingsGroup">
+                        <div class="setting-group-header">
+                            <h3><i class="fas fa-tshirt"></i> 套装设置</h3>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="setting-group-content">
+                            <div class="setting-section">
+                                <h4><i class="fas fa-wand-magic-sparkles"></i> 选择套装</h4>
+                                <div class="outfit-selector" id="outfitSelector">
+                                    <div class="outfit-card" data-outfit="shouzhang">
+                                        <div class="outfit-color shouzhang"></div>
+                                        <span>纸上时光</span>
+                                    </div>
+                                    <div class="outfit-card" data-outfit="macaron">
+                                        <div class="outfit-color macaron"></div>
+                                        <span>甜梦巴黎</span>
+                                    </div>
+                                    <div class="outfit-card" data-outfit="kawaii">
+                                        <div class="outfit-color kawaii"></div>
+                                        <span>萌力全开</span>
+                                    </div>
+                                    <div class="outfit-card" data-outfit="cyberpunk">
+                                        <div class="outfit-color cyberpunk"></div>
+                                        <span>霓虹都市</span>
+                                    </div>
+                                    <div class="outfit-card" data-outfit="editorial">
+                                        <div class="outfit-color editorial"></div>
+                                        <span>纸墨宣言</span>
+                                    </div>
+                                    <div class="outfit-card" data-outfit="vintage">
+                                        <div class="outfit-color vintage"></div>
+                                        <span>旧日终端</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-section">
+                                <h4><i class="fas fa-info-circle"></i> 套装信息</h4>
+                                <div class="theme-info">
+                                    <p><strong>当前套装：</strong><span id="currentOutfitName">纸上时光</span></p>
+                                    <p><strong>描述：</strong><span id="currentOutfitDesc">手账纸片 · 胶带马克笔，温暖治愈</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="setting-group" id="quoteSettingsGroup">
+                        <div class="setting-group-header">
+                            <h3><i class="fas fa-quote-right"></i> 金句设置</h3>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="setting-group-content">
+                            <div class="setting-section">
+                                <h4><i class="fas fa-filter"></i> 金句类型</h4>
+                                <div class="type-controls">
+                                    <button type="button" class="btn btn-small" id="selectAllBtn"><i class="fas fa-check-square"></i> 全选</button>
+                                    <button type="button" class="btn btn-small btn-outline" id="deselectAllBtn"><i class="far fa-square"></i> 全不选</button>
+                                    <button type="button" class="btn btn-small" id="toggleGuaranteeBtn"><i class="fas fa-shield-alt"></i> 保底机制: 开</button>
+                                </div>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-item"><input type="checkbox" name="quoteType" value="a" checked> 动画</label>
+                                    <label class="checkbox-item"><input type="checkbox" name="quoteType" value="c" checked> 游戏</label>
+                                    <label class="checkbox-item"><input type="checkbox" name="quoteType" value="e" checked> 原创</label>
+                                    <label class="checkbox-item"><input type="checkbox" name="quoteType" value="f" checked> 网络</label>
+                                    <label class="checkbox-item"><input type="checkbox" name="quoteType" value="h" checked> 影视</label>
+                                    <label class="checkbox-item"><input type="checkbox" name="quoteType" value="k" checked> 哲学</label>
+                                    <label class="checkbox-item"><input type="checkbox" name="quoteType" value="m" id="extensionType" checked> 拓展</label>
+                                </div>
+                            </div>
+                            <div class="setting-section" id="tagFilterContainer">
+                                <h4><i class="fas fa-tags"></i> 标签过滤</h4>
+                                <div class="tag-filter-group" id="tagFilterGroup"></div>
+                            </div>
+                            <div class="setting-section">
+                                <h4><i class="fas fa-film"></i> 动画效果</h4>
+                                <div class="radio-group">
+                                    <label class="radio-item"><input type="radio" name="quoteAnimation" id="typewriterAnimation" value="typewriter" checked> 打字机效果</label>
+                                    <label class="radio-item"><input type="radio" name="quoteAnimation" id="noAnimation" value="none"> 无动画</label>
+                                </div>
+                            </div>
+                            <div class="setting-section">
+                                <h4><i class="fas fa-database"></i> 拓展金句状态</h4>
+                                <div class="api-status">
+                                    <div class="status-indicator" id="extStatus"></div>
+                                    <span id="extStatusText">拓展金句: 已启用 (5条)</span>
+                                    <button type="button" class="download-btn" id="downloadExtBtn" title="重新下载拓展金句"><i class="fas fa-download"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group" id="bgSettingsGroup">
+                        <div class="setting-group-header">
+                            <h3><i class="fas fa-palette"></i> 背景设置</h3>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="setting-group-content">
+                            <div class="setting-section">
+                                <h4><i class="fas fa-image"></i> 自定义背景</h4>
+                                <div class="background-options">
+                                    <div class="bg-input-group">
+                                        <input type="text" id="bgUrl" class="bg-input" placeholder="输入背景图片URL">
+                                        <button type="button" class="btn" id="saveBgBtn" aria-label="保存背景"><i class="fas fa-save"></i></button>
+                                    </div>
+                                    <button type="button" class="btn" id="bgLocalBtn"><i class="fas fa-image"></i> 选择本地图片</button>
+                                </div>
+                            </div>
+                            <div class="setting-section">
+                                <h4><i class="fas fa-magic"></i> 预设主题</h4>
+                                <div class="preset-buttons">
+                                    <button type="button" class="preset-btn" data-preset="none">无背景</button>
+                                    <button type="button" class="preset-btn" data-preset="weimei">唯美</button>
+                                    <button type="button" class="preset-btn" data-preset="bluearchive">蔚蓝档案</button>
+                                    <button type="button" class="preset-btn" data-preset="anime">二次元</button>
+                                    <button type="button" class="preset-btn" data-preset="yuanshen">原神</button>
+                                    <button type="button" class="preset-btn" data-preset="random">随机</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group" id="themeSettingsGroup">
+                        <div class="setting-group-header">
+                            <h3><i class="fas fa-palette"></i> 主题设置</h3>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="setting-group-content">
+                            <div class="setting-section">
+                                <h4><i class="fas fa-eye"></i> 主题预览</h4>
+                                <div class="theme-preview" id="themePreview">
+                                    <div class="preview-header"></div>
+                                    <div class="preview-body">
+                                        <div class="preview-time">12:34</div>
+                                        <div class="preview-quote">主题预览效果</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-section">
+                                <h4><i class="fas fa-th-large"></i> 主题选择</h4>
+                                <div class="theme-selector" id="themeSelector">
+                                    <div class="theme-card" data-theme="light">
+                                        <div class="theme-color light"></div>
+                                        <span>浅色</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="dark">
+                                        <div class="theme-color dark"></div>
+                                        <span>深色</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="ocean">
+                                        <div class="theme-color ocean"></div>
+                                        <span>海洋</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="forest">
+                                        <div class="theme-color forest"></div>
+                                        <span>森林</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="sunset">
+                                        <div class="theme-color sunset"></div>
+                                        <span>日落</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="midnight">
+                                        <div class="theme-color midnight"></div>
+                                        <span>午夜</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="sakura">
+                                        <div class="theme-color sakura"></div>
+                                        <span>樱花</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="high-contrast">
+                                        <div class="theme-color high-contrast"></div>
+                                        <span>高对比度</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="minimal">
+                                        <div class="theme-color minimal"></div>
+                                        <span>极简</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="nature">
+                                        <div class="theme-color nature"></div>
+                                        <span>自然</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="dawn">
+                                        <div class="theme-color dawn"></div>
+                                        <span>奶油</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="paper">
+                                        <div class="theme-color paper"></div>
+                                        <span>糖果纸</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="studynight">
+                                        <div class="theme-color studynight"></div>
+                                        <span>星夜自习</span>
+                                    </div>
+                                    <div class="theme-card" data-theme="nebula">
+                                        <div class="theme-color nebula"></div>
+                                        <span>云霓</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-section">
+                                <h4><i class="fas fa-info-circle"></i> 主题信息</h4>
+                                <div class="theme-info" id="themeInfo">
+                                    <p><strong>当前主题：</strong><span id="currentThemeName">浅色</span></p>
+                                    <p><strong>描述：</strong><span id="currentThemeDesc">简洁明亮的浅色主题，适合日常使用</span></p>
+                                </div>
+                            </div>
+                            <div class="setting-section">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="followSystemTheme" class="custom-checkbox">
+                                    <label for="followSystemTheme">跟随系统主题模式</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group" id="styleSettingsGroup">
+                        <div class="setting-group-header">
+                            <h3><i class="fas fa-paint-brush"></i> 样式设置</h3>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="setting-group-content">
+                            <div class="setting-section">
+                                <h4><i class="fas fa-adjust"></i> 界面透明度</h4>
+                                <div class="style-control">
+                                    <label for="opacitySlider">透明度: <span id="opacityValue">70</span>%</label>
+                                    <input type="range" id="opacitySlider" min="0" max="100" value="70" class="style-slider">
+                                </div>
+                            </div>
+                            <div class="setting-section">
+                                <h4><i class="fas fa-smog"></i> 界面模糊度</h4>
+                                <div class="style-control">
+                                    <label for="blurSlider">模糊度: <span id="blurValue">5</span>px</label>
+                                    <input type="range" id="blurSlider" min="0" max="100" value="5" class="style-slider">
+                                </div>
+                            </div>
+                            <div class="setting-section">
+                                <button type="button" class="btn reset-btn" id="resetStyleBtn"><i class="fas fa-trash-restore"></i> 恢复默认样式</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group" id="systemSettingsGroup">
+                        <div class="setting-group-header">
+                            <h3><i class="fas fa-cog"></i> 系统设置</h3>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="setting-group-content">
+                            <div class="setting-section">
+                                <h4><i class="fas fa-bolt"></i> 快捷操作</h4>
+                                <div class="action-buttons">
+                                    <button type="button" class="action-btn" id="refreshQuoteBtn"><i class="fas fa-quote-right"></i> 立即更换金句</button>
+                                    <button type="button" class="action-btn" id="refreshBgBtn"><i class="fas fa-image"></i> 立即更换背景</button>
+                                </div>
+                            </div>
+                            <div class="setting-section">
+                                <h4><i class="fas fa-file-export"></i> 设置备份</h4>
+                                <div class="import-export-buttons">
+                                    <button type="button" class="btn btn-export" id="exportSettingsBtn"><i class="fas fa-download"></i> 导出设置</button>
+                                    <button type="button" class="btn btn-import" id="importSettingsBtn"><i class="fas fa-upload"></i> 导入设置</button>
+                                    <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                                </div>
+                                <p class="setting-desc">导出所有设置、倒数日和拓展金句到文件，或从文件导入恢复</p>
+                            </div>
+                            <div class="setting-section">
+                                <h4><i class="fas fa-tools"></i> 其他操作</h4>
+                                <div class="system-buttons">
+                                    <button type="button" class="btn reset-btn" id="resetBtn"><i class="fas fa-trash-restore"></i> 恢复默认设置</button>
+                                    <button type="button" class="btn" id="aboutBtn"><i class="fas fa-info-circle"></i> 关于青春时光</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bg-progress progress-container" id="bgProgress">
+        <div class="progress-bar" id="bgProgressBar"></div>
+    </div>
+    
+    <button type="button" class="floating-btn" id="drawerToggle" aria-label="快捷操作" aria-expanded="false"><i class="fas fa-wand-magic-sparkles"></i></button>
+    
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <div class="quick-drawer" id="quickDrawer" aria-hidden="true">
+        <div class="drawer-header">
+            <span class="drawer-title">快捷操作</span>
+            <button type="button" class="drawer-close" id="drawerClose" aria-label="关闭"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="drawer-body">
+            <button type="button" class="drawer-item" id="drawerQuote"><i class="fas fa-quote-right"></i><span>更换金句</span></button>
+            <button type="button" class="drawer-item" id="drawerBg"><i class="fas fa-image"></i><span>更换背景</span></button>
+            <button type="button" class="drawer-item" id="drawerTheme"><i class="fas fa-palette"></i><span>切换主题</span></button>
+            <button type="button" class="drawer-item" id="drawerOutfit"><i class="fas fa-tshirt"></i><span>切换套装</span></button>
+        </div>
+        <div class="drawer-tape"></div>
+    </div>
+    
+    <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage">操作成功！</span></div>
+
+    <!-- 拆分后的JS文件，按依赖顺序加载 -->
+    <script src="js/globals.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/time.js"></script>
+    <script src="js/quote.js"></script>
+    <script src="js/background.js"></script>
+    <script src="js/countdown.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/drawer.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

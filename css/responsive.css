@@ -1,0 +1,195 @@
+@media (max-width: 1024px) {
+    .content-wrapper { flex-direction: column; }
+    .countdown-sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; }
+    .countdown-panel { flex: 1; min-width: 300px; }
+    .time-display { font-size: 3.5rem; }
+    .quote-content { font-size: 1.4rem; }
+    .settings-grid {
+        grid-template-columns: 1fr;
+        max-height: calc(85vh - 100px);
+    }
+}
+
+@media (max-width: 900px) {
+    .container { max-width: 95%; }
+    .time-display { font-size: 3.3rem; }
+    .quote-content { font-size: 1.4rem; }
+    .time-section, .quote-section { padding: 15px; }
+}
+
+@media (max-width: 768px) {
+    header { flex-direction: column; gap: 15px; padding: 10px 15px; min-height: auto; }
+    .logo-container { width: 100%; max-width: 100%; justify-content: center; }
+    .logo h1 { font-size: 1.3rem; justify-content: center; text-align: center; }
+    .controls { width: 100%; justify-content: center; }
+    .countdown-item { font-size: 0.9rem; padding: 4px 8px; min-width: 120px; }
+    .btn { padding: 6px 12px; font-size: 0.85rem; min-height: 36px; }
+    .time-display { font-size: 3rem; }
+    .quote-hidden .time-display { font-size: 4.5rem !important; }
+    .quote-content { font-size: 1.3rem; }
+    .preset-btn { min-width: 80px; font-size: 0.8rem; padding: 6px 8px; }
+    .quote-progress-container { width: 90px; }
+    .settings-panel { top: 100%; transform: translateY(0); padding: 15px; max-height: 90vh; border-radius: 16px; }
+    .settings-open .settings-panel { transform: translateY(-100%); }
+    .settings-header { margin-bottom: 15px; }
+    .settings-header h2 { font-size: 1.3rem; }
+    .setting-group { padding: 12px; }
+    .setting-group h3 { font-size: 1.1rem; }
+    .setting-section h4 { font-size: 0.95rem; }
+    .settings-grid { max-height: calc(90vh - 80px); gap: 12px; }
+}
+
+@media (max-width: 600px) {
+    .time-display { font-size: 2.8rem; }
+    .quote-hidden .time-display { font-size: 4rem !important; }
+    .quote-content { font-size: 1.2rem; }
+    .interval-controls { flex-direction: column; }
+    .interval-control { min-width: 100%; }
+    .quote-progress-container { width: 70px; }
+    .countdown-item { min-width: 130px; }
+    .countdown-panel { min-width: 100%; }
+    .settings-grid { max-height: 60vh; }
+}
+
+@media (max-width: 480px) {
+    .logo-container { flex-direction: column; text-align: center; }
+    .logo h1 { flex-direction: row; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .countdowns-container { justify-content: center; margin-top: 8px; }
+    .next-exam-container { margin-left: 0; margin-top: 8px; width: 100%; }
+    .time-display { font-size: 2.5rem; }
+    .milliseconds { font-size: 1.2rem; }
+    .quote-hidden .time-display { font-size: 3.5rem !important; }
+    .date-display { font-size: 1rem; }
+    .quote-content { font-size: 1.1rem; }
+    .quote-author { font-size: 0.9rem; }
+    .bg-input-group { flex-direction: column; }
+    .preset-buttons { flex-direction: column; }
+    .preset-btn { width: 100%; padding: 8px; font-size: 0.8rem; }
+    .quote-progress-container { width: 60px; }
+    .btn .tooltip { display: none; }
+    .settings-panel { padding: 12px; max-height: 92vh; border-radius: 12px; }
+    .settings-grid { max-height: calc(92vh - 70px); gap: 10px; }
+    .settings-header { margin-bottom: 12px; }
+    .settings-header h2 { font-size: 1.1rem; }
+    .settings-buttons .btn { padding: 5px 10px; font-size: 0.8rem; min-height: 32px; }
+    .setting-group { padding: 10px; border-radius: 12px; }
+    .setting-group h3 { font-size: 1rem; }
+    .setting-section { margin-bottom: 15px; padding-bottom: 12px; }
+    .setting-section h4 { font-size: 0.9rem; margin-bottom: 8px; }
+    .checkbox-group { gap: 8px; }
+    .checkbox-item { font-size: 0.9rem; }
+    .checkbox-item input { width: 16px; height: 16px; }
+    .action-buttons { flex-direction: column; }
+    .action-btn { padding: 8px; font-size: 0.85rem; }
+    .countdown-item { min-width: 110px; font-size: 0.85rem; }
+    .holiday-image-container { margin: 10px auto 5px; }
+    .btn { padding: 5px 10px; font-size: 0.8rem; min-height: 32px; }
+    .form-control { padding: 8px 10px; font-size: 0.9rem; }
+    .interval-control input { padding: 6px 10px; }
+    .system-buttons .btn { min-height: 36px; }
+    .import-export-buttons {
+        flex-direction: column;
+    }
+    .import-export-buttons .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .time-display { font-size: 2.2rem; flex-wrap: wrap; justify-content: center; }
+    .quote-hidden .time-display { font-size: 3rem !important; }
+    .date-display { font-size: 0.9rem; }
+    .quote-content { font-size: 1.0rem; }
+    .countdown-item { min-width: 100px; font-size: 0.8rem; padding: 3px 6px; }
+    header { padding: 8px 10px; }
+    .logo h1 { font-size: 1.1rem; }
+    .btn { padding: 4px 8px; font-size: 0.75rem; min-height: 28px; }
+    .settings-panel { padding: 10px; max-height: 95vh; }
+    .settings-grid { max-height: calc(95vh - 60px); gap: 8px; }
+    .settings-header h2 { font-size: 1rem; }
+    .setting-group { padding: 8px; }
+    .setting-group h3 { font-size: 0.9rem; }
+    .setting-section h4 { font-size: 0.8rem; }
+    .checkbox-item { font-size: 0.8rem; }
+    .preset-btn { font-size: 0.75rem; padding: 6px; }
+    .form-control { padding: 6px 8px; font-size: 0.85rem; }
+}
+
+@media (max-width: 360px) and (orientation: portrait) {
+    .time-display { font-size: 2rem; }
+    .quote-hidden .time-display { font-size: 2.8rem !important; }
+    .date-display { font-size: 0.9rem; }
+    .quote-content { font-size: 0.95rem; }
+    .quote-section { padding: 12px; }
+    .logo h1 { font-size: 1.2rem; }
+    .time-section { padding: 12px; }
+    .countdown-item { min-width: 100px; }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+    .container { max-width: 95%; gap: 10px; }
+    .time-section, .quote-section { padding: 12px; }
+    .quote-section { height: 150px; }
+    .time-display { font-size: 2.5rem; }
+    .quote-content { font-size: 1.0rem; }
+    .quote-author { font-size: 0.8rem; margin-top: 10px; }
+    .settings-grid { max-height: 50vh; }
+    header { padding: 8px 12px !important; }
+    .logo h1 { font-size: 1.1rem !important; }
+    .countdown-item { font-size: 0.8rem !important; }
+    .btn { padding: 5px 10px !important; font-size: 0.8rem !important; }
+    .holiday-image-container { width: 70px; height: 63px; }
+}
+
+@media (max-height: 400px) and (orientation: landscape) {
+    .time-display { font-size: 2.2rem !important; }
+    .quote-content { font-size: 0.9rem !important; }
+    .quote-author, .quote-type { font-size: 0.7rem !important; }
+    .time-section, .quote-section { padding: 8px !important; }
+    .date-display { font-size: 0.9rem !important; }
+    .countdown-item { min-width: 90px !important; }
+    .holiday-image-container { width: 60px; height: 54px; }
+}
+
+/* ============ 校园手账 · 窄屏适配 ============ */
+
+@media (max-width: 768px) {
+    header, .time-section, .quote-section, .countdown-panel, .settings-panel {
+        border-radius: var(--radius-sm);
+    }
+    .card-glass::before, .time-section::before {
+        width: 60px;
+        height: 18px;
+        top: -10px;
+    }
+}
+
+/* 时间数字块窄屏收缩，防溢出 */
+@media (max-width: 600px) {
+    .time-display > span:not(.colon):not(.milliseconds) {
+        padding: 2px 8px;
+        min-width: 1ch;
+    }
+    .time-display { gap: 4px; }
+    .logo h1 { font-size: 1.4rem; }
+}
+
+@media (max-width: 480px) {
+    .date-display { padding: 4px 12px; border-radius: 4px; }
+    .time-display > span:not(.colon):not(.milliseconds) {
+        padding: 1px 6px;
+        border-width: 1.5px;
+    }
+    .quote-content { padding: 0 10px; }
+    .btn { padding: 7px 14px; }
+    .countdown-item { padding: 5px 10px; min-width: 110px; }
+}
+
+@media (max-width: 360px) {
+    .time-display > span:not(.colon):not(.milliseconds) {
+        padding: 1px 4px;
+    }
+    .time-display { gap: 3px; }
+    .milliseconds { font-size: 1.1rem; margin-bottom: 5px; }
+    .quote-type { max-width: 90%; }
+}

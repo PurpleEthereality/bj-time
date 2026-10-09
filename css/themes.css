@@ -1,0 +1,376 @@
+/* ============ 校园手账 · 14 主题（每主题 = 不同纸张 × 笔迹色） ============
+   保留类名与 JS 兼容：light/dark/ocean/forest/sunset/midnight/sakura/
+   high-contrast/minimal/nature/dawn/paper/studynight/nebula -theme
+   ---------------------------------------------------------------
+   每主题基于同一套 token 结构，仅换 --bg/--bg-2/--card-bg 纸张底色
+   与 --primary/--secondary/--accent 笔迹色。 */
+
+/* 浅色 Light —— 米黄活页纸 × 墨蓝笔 */
+.light-theme {
+    --primary: #3a5a8c;
+    --secondary: #7a6aa8;
+    --accent: #e07a5f;
+    --text: #3a3428;
+    --bg: #f6f0e2;
+    --bg-2: #ece3d0;
+    --card-bg: #fdf9ef;
+    --card-border: rgba(70, 58, 42, 0.18);
+    --marker: #f2cf63;
+    --marker-soft: rgba(242, 207, 99, 0.35);
+    --tape: rgba(255, 250, 235, 0.55);
+    --shadow-near: 0 1px 0 rgba(70, 58, 42, 0.06);
+    --shadow-far: 0 3px 8px rgba(70, 58, 42, 0.12);
+    --shadow: 0 2px 6px rgba(70, 58, 42, 0.1);
+    --time-block-bg: rgba(250, 244, 226, 0.8);
+    --gaokao-color: #d9534f;
+    --progress-normal: #6a8c5a;
+    --progress-warning: #d9534f;
+}
+
+/* 深色 Dark —— 黑皮笔记本 × 白粉笔 */
+.dark-theme {
+    --primary: #b7c4e0;
+    --secondary: #c9b8e8;
+    --accent: #f0a088;
+    --text: #ece5d8;
+    --bg: #23201c;
+    --bg-2: #2d2a24;
+    --card-bg: #2b2823;
+    --card-border: rgba(230, 220, 200, 0.16);
+    --marker: #c9a94f;
+    --marker-soft: rgba(201, 169, 79, 0.3);
+    --tape: rgba(60, 55, 45, 0.55);
+    --shadow-near: 0 1px 0 rgba(0, 0, 0, 0.4);
+    --shadow-far: 0 3px 8px rgba(0, 0, 0, 0.5);
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+    --time-block-bg: rgba(50, 46, 38, 0.8);
+    --gaokao-color: #f0a088;
+    --progress-normal: #93b87c;
+    --progress-warning: #f0a088;
+}
+
+/* 海洋 Ocean —— 蓝绿横线稿纸 × 深蓝笔 */
+.ocean-theme {
+    --primary: #2f5f7a;
+    --secondary: #3f8f8a;
+    --accent: #b07aa0;
+    --text: #2c3a42;
+    --bg: #eef4f3;
+    --bg-2: #e0ecea;
+    --card-bg: #f4f9f8;
+    --card-border: rgba(40, 90, 100, 0.18);
+    --marker: #a8d8cf;
+    --marker-soft: rgba(168, 216, 207, 0.35);
+    --tape: rgba(235, 250, 248, 0.55);
+    --shadow-near: 0 1px 0 rgba(40, 90, 100, 0.06);
+    --shadow-far: 0 3px 8px rgba(40, 90, 100, 0.12);
+    --shadow: 0 2px 6px rgba(40, 90, 100, 0.1);
+    --time-block-bg: rgba(235, 248, 246, 0.8);
+    --gaokao-color: #d96a6a;
+    --progress-normal: #5f9a8c;
+    --progress-warning: #d96a6a;
+}
+
+/* 森林 Forest —— 青绿便签 × 深绿笔 */
+.forest-theme {
+    --primary: #4d7047;
+    --secondary: #a8873f;
+    --accent: #b06a5a;
+    --text: #2f3a2c;
+    --bg: #f0f4e8;
+    --bg-2: #e4ecdb;
+    --card-bg: #f5f8ef;
+    --card-border: rgba(60, 100, 60, 0.18);
+    --marker: #cfe0a8;
+    --marker-soft: rgba(207, 224, 168, 0.35);
+    --tape: rgba(240, 250, 235, 0.55);
+    --shadow-near: 0 1px 0 rgba(60, 100, 60, 0.06);
+    --shadow-far: 0 3px 8px rgba(60, 100, 60, 0.12);
+    --shadow: 0 2px 6px rgba(60, 100, 60, 0.1);
+    --time-block-bg: rgba(242, 248, 236, 0.8);
+    --gaokao-color: #b06a5a;
+    --progress-normal: #7a9a5a;
+    --progress-warning: #d9884a;
+}
+
+/* 日落 Sunset —— 杏橙便签 × 砖红笔 */
+.sunset-theme {
+    --primary: #b05f48;
+    --secondary: #c98a3f;
+    --accent: #8a6aa8;
+    --text: #4a3328;
+    --bg: #faf0e0;
+    --bg-2: #f3e3cc;
+    --card-bg: #fef6e9;
+    --card-border: rgba(160, 90, 50, 0.18);
+    --marker: #f2d5a8;
+    --marker-soft: rgba(242, 213, 168, 0.4);
+    --tape: rgba(255, 248, 236, 0.55);
+    --shadow-near: 0 1px 0 rgba(160, 90, 50, 0.06);
+    --shadow-far: 0 3px 8px rgba(160, 90, 50, 0.12);
+    --shadow: 0 2px 6px rgba(160, 90, 50, 0.1);
+    --time-block-bg: rgba(253, 244, 228, 0.8);
+    --gaokao-color: #c05a3f;
+    --progress-normal: #9a8c3f;
+    --progress-warning: #d9884a;
+}
+
+/* 午夜 Midnight —— 深紫皮面 × 浅紫笔 */
+.midnight-theme {
+    --primary: #b49de0;
+    --secondary: #8ab0d8;
+    --accent: #7ac4b4;
+    --text: #ece4f8;
+    --bg: #221c2e;
+    --bg-2: #2d263b;
+    --card-bg: #2b2538;
+    --card-border: rgba(180, 160, 220, 0.18);
+    --marker: #c3b4e8;
+    --marker-soft: rgba(195, 180, 232, 0.3);
+    --tape: rgba(55, 48, 72, 0.55);
+    --shadow-near: 0 1px 0 rgba(0, 0, 0, 0.4);
+    --shadow-far: 0 3px 8px rgba(0, 0, 0, 0.5);
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+    --time-block-bg: rgba(52, 44, 70, 0.8);
+    --gaokao-color: #c9b4f0;
+    --progress-normal: #7ac4b4;
+    --progress-warning: #e0a088;
+}
+
+/* 樱花 Sakura —— 樱花粉信纸 × 玫粉笔 */
+.sakura-theme {
+    --primary: #b06a8a;
+    --secondary: #c98aaa;
+    --accent: #6a7ac9;
+    --text: #4a3038;
+    --bg: #faf0f2;
+    --bg-2: #f3e0e6;
+    --card-bg: #fef6f8;
+    --card-border: rgba(190, 110, 150, 0.18);
+    --marker: #f2d0e0;
+    --marker-soft: rgba(242, 208, 224, 0.4);
+    --tape: rgba(255, 244, 248, 0.55);
+    --shadow-near: 0 1px 0 rgba(190, 110, 150, 0.06);
+    --shadow-far: 0 3px 8px rgba(190, 110, 150, 0.12);
+    --shadow: 0 2px 6px rgba(190, 110, 150, 0.1);
+    --time-block-bg: rgba(252, 242, 246, 0.8);
+    --gaokao-color: #c96a8a;
+    --progress-normal: #8a8ac9;
+    --progress-warning: #d988a8;
+}
+
+/* 高对比 High Contrast —— 白纸黑字红批注 */
+.high-contrast-theme {
+    --primary: #000000;
+    --secondary: #333333;
+    --accent: #d90000;
+    --text: #000000;
+    --bg: #ffffff;
+    --bg-2: #f0f0f0;
+    --card-bg: #ffffff;
+    --card-border: #000000;
+    --marker: #ffd200;
+    --marker-soft: rgba(255, 210, 0, 0.4);
+    --tape: rgba(255, 255, 255, 0.6);
+    --shadow-near: 0 1px 0 rgba(0, 0, 0, 0.2);
+    --shadow-far: 0 3px 8px rgba(0, 0, 0, 0.3);
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    --time-block-bg: #ffffff;
+    --gaokao-color: #d90000;
+    --progress-normal: #006600;
+    --progress-warning: #d90000;
+}
+
+/* 极简 Minimal —— 素白纸 × 墨灰笔 */
+.minimal-theme {
+    --primary: #4a5058;
+    --secondary: #8a9098;
+    --accent: #b05a4a;
+    --text: #2b2f33;
+    --bg: #f7f6f3;
+    --bg-2: #ecebe7;
+    --card-bg: #fdfdfb;
+    --card-border: rgba(60, 60, 60, 0.14);
+    --marker: #e0dcc8;
+    --marker-soft: rgba(224, 220, 200, 0.4);
+    --tape: rgba(250, 250, 246, 0.55);
+    --shadow-near: 0 1px 0 rgba(60, 60, 60, 0.06);
+    --shadow-far: 0 3px 8px rgba(60, 60, 60, 0.1);
+    --shadow: 0 2px 6px rgba(60, 60, 60, 0.08);
+    --time-block-bg: rgba(250, 250, 246, 0.8);
+    --gaokao-color: #b05a4a;
+    --progress-normal: #6a8c5a;
+    --progress-warning: #b05a4a;
+}
+
+/* 自然 Nature —— 米绿牛皮纸 × 松绿笔 */
+.nature-theme {
+    --primary: #5a7a48;
+    --secondary: #8a9a5a;
+    --accent: #b07a48;
+    --text: #333a2c;
+    --bg: #f0f2e6;
+    --bg-2: #e4e8d6;
+    --card-bg: #f6f6ec;
+    --card-border: rgba(80, 110, 60, 0.18);
+    --marker: #dce8b8;
+    --marker-soft: rgba(220, 232, 184, 0.4);
+    --tape: rgba(244, 248, 236, 0.55);
+    --shadow-near: 0 1px 0 rgba(80, 110, 60, 0.06);
+    --shadow-far: 0 3px 8px rgba(80, 110, 60, 0.12);
+    --shadow: 0 2px 6px rgba(80, 110, 60, 0.1);
+    --time-block-bg: rgba(244, 246, 234, 0.8);
+    --gaokao-color: #8a7a48;
+    --progress-normal: #7a9a5a;
+    --progress-warning: #c0a04a;
+}
+
+/* 奶油 Dawn —— 奶油黄便签 × 薄荷绿笔 */
+.dawn-theme {
+    --primary: #4a8a7a;
+    --secondary: #c9a04a;
+    --accent: #d9705a;
+    --text: #3a4438;
+    --bg: #fbf4e0;
+    --bg-2: #f4ecd0;
+    --card-bg: #fef9ec;
+    --card-border: rgba(160, 150, 80, 0.2);
+    --marker: #f2e0a8;
+    --marker-soft: rgba(242, 224, 168, 0.4);
+    --tape: rgba(255, 250, 236, 0.55);
+    --shadow-near: 0 1px 0 rgba(160, 150, 80, 0.07);
+    --shadow-far: 0 3px 8px rgba(160, 150, 80, 0.12);
+    --shadow: 0 2px 6px rgba(160, 150, 80, 0.1);
+    --time-block-bg: rgba(252, 246, 230, 0.8);
+    --gaokao-color: #d9705a;
+    --progress-normal: #6a9a8a;
+    --progress-warning: #d99a5a;
+}
+
+/* 糖果纸 Paper —— 淡蓝便签 × 柔粉笔 */
+.paper-theme {
+    --primary: #5a7ac9;
+    --secondary: #c98a9a;
+    --accent: #5a9ac9;
+    --text: #383a4a;
+    --bg: #eef2fa;
+    --bg-2: #e2e8f4;
+    --card-bg: #f6f8fd;
+    --card-border: rgba(90, 120, 200, 0.18);
+    --marker: #c0d4f2;
+    --marker-soft: rgba(192, 212, 242, 0.4);
+    --tape: rgba(240, 246, 255, 0.55);
+    --shadow-near: 0 1px 0 rgba(90, 120, 200, 0.07);
+    --shadow-far: 0 3px 8px rgba(90, 120, 200, 0.12);
+    --shadow: 0 2px 6px rgba(90, 120, 200, 0.1);
+    --time-block-bg: rgba(242, 246, 252, 0.8);
+    --gaokao-color: #c96a8a;
+    --progress-normal: #6a9ac9;
+    --progress-warning: #d988a0;
+}
+
+/* 星夜自习 StudyNight —— 深靛蓝活页 × 暖灯橙笔 */
+.studynight-theme {
+    --primary: #7a9ac9;
+    --secondary: #d9b06a;
+    --accent: #9ac0e0;
+    --text: #eceef2;
+    --bg: #232a38;
+    --bg-2: #2d3648;
+    --card-bg: #2b3346;
+    --card-border: rgba(180, 200, 230, 0.16);
+    --marker: #c9a05a;
+    --marker-soft: rgba(201, 160, 90, 0.28);
+    --tape: rgba(55, 62, 82, 0.55);
+    --shadow-near: 0 1px 0 rgba(0, 0, 0, 0.4);
+    --shadow-far: 0 3px 8px rgba(0, 0, 0, 0.5);
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+    --time-block-bg: rgba(50, 60, 82, 0.8);
+    --gaokao-color: #d9b06a;
+    --progress-normal: #7ac4a0;
+    --progress-warning: #d9a06a;
+}
+
+/* 云霓 Nebula —— 淡紫信纸 × 青粉笔 */
+.nebula-theme {
+    --primary: #6a7ab8;
+    --secondary: #7ab8b0;
+    --accent: #c98aa8;
+    --text: #383a52;
+    --bg: #f0eef8;
+    --bg-2: #e4e2f4;
+    --card-bg: #f6f4fb;
+    --card-border: rgba(120, 100, 200, 0.18);
+    --marker: #d4ccf0;
+    --marker-soft: rgba(212, 204, 240, 0.4);
+    --tape: rgba(244, 242, 252, 0.55);
+    --shadow-near: 0 1px 0 rgba(120, 100, 200, 0.07);
+    --shadow-far: 0 3px 8px rgba(120, 100, 200, 0.12);
+    --shadow: 0 2px 6px rgba(120, 100, 200, 0.1);
+    --time-block-bg: rgba(244, 240, 252, 0.8);
+    --gaokao-color: #c98aa8;
+    --progress-normal: #7ab8a0;
+    --progress-warning: #d988b0;
+}
+
+/* 布局优先级样式 */
+.quote-priority .time-section {
+    flex: 1;
+}
+
+.quote-priority .quote-section {
+    flex: 2;
+}
+
+.quote-priority .time-display {
+    font-size: 3.3rem;
+}
+
+.quote-priority .quote-content {
+    font-size: 1.8rem;
+}
+
+.time-priority .time-section {
+    flex: 2;
+}
+
+.time-priority .quote-section {
+    flex: 1;
+}
+
+.time-priority .time-display {
+    font-size: 4.8rem;
+}
+
+.time-priority .quote-content {
+    font-size: 1.4rem;
+}
+
+.quote-hidden .quote-section {
+    display: none;
+}
+
+.quote-hidden .time-section {
+    height: 70vh;
+    justify-content: center;
+}
+
+.quote-hidden .time-display {
+    font-size: 5.5rem !important;
+}
+
+.fixed-cards .time-section,
+.fixed-cards .quote-section {
+    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
+    overflow: hidden;
+}
+
+.fixed-cards .time-section {
+    justify-content: center;
+}
+
+.fixed-cards .quote-content {
+    overflow: auto;
+}

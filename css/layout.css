@@ -1,0 +1,349 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 2vw, 20px);
+}
+
+/* 纸张底纹 */
+body {
+    background-image:
+        var(--paper-noise),
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(200,190,160,0.12), transparent 45%);
+}
+
+/* 便利贴/纸张卡片通用：纸面 + 轻微手绘描边 + 单层下沉投影 */
+.card-glass {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+/* 胶带贴边 */
+.card-glass::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 90px;
+    height: 24px;
+    background: var(--tape);
+    border: 1px solid rgba(120, 100, 60, 0.12);
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(70, 58, 42, 0.15);
+    z-index: 2;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 22px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    flex-wrap: wrap;
+    min-height: 80px;
+    position: relative;
+}
+
+/* 标题下划线：马克笔手绘横线 */
+header::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    left: 8%;
+    width: 84%;
+    height: 6px;
+    background: var(--marker-soft);
+    border-radius: 3px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 200px;
+    max-width: 60%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo h1 {
+    font-size: 1.9rem;
+    color: var(--text);
+    font-family: var(--font-hand);
+    font-weight: 700;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    white-space: nowrap;
+    position: relative;
+}
+
+/* 标题下马克笔高亮 */
+.logo h1::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 8px;
+    background: var(--marker-soft);
+    z-index: -1;
+    border-radius: 4px;
+}
+
+.logo i {
+    font-size: 1.7rem;
+    color: var(--accent);
+}
+
+.countdowns-container {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    max-width: 100%;
+    flex: 1;
+    min-width: 0;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    flex: 1;
+    min-width: fit-content;
+}
+
+.content-wrapper {
+    display: flex;
+    gap: clamp(16px, 2vw, 24px);
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 2vw, 24px);
+    transition: transform 0.4s ease;
+}
+
+.settings-open .main-content {
+    transform: translateY(-100%);
+}
+
+.countdown-sidebar {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 483px;
+    overflow-y: auto;
+}
+
+/* 时间卡 —— 便利贴 */
+.time-section {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
+    width: 100%;
+}
+
+/* 时间卡内上方胶带 */
+.time-section::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 90px;
+    height: 24px;
+    background: var(--tape);
+    border: 1px solid rgba(120, 100, 60, 0.12);
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(70, 58, 42, 0.15);
+    z-index: 2;
+}
+
+/* 卡片右上角便签折角 */
+.time-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(225deg, var(--bg-2) 0%, var(--bg-2) 50%, transparent 50%, transparent 100%);
+    border-bottom-left-radius: 8px;
+}
+
+/* 手写分隔线 */
+.time-section .divider-hand,
+.quote-section .divider-hand {
+    width: 70%;
+    height: 0;
+    border-top: 2px dashed var(--card-border);
+    margin: 8px auto;
+}
+
+.quote-section {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    position: relative;
+    height: 30px;
+    min-height: 240px;
+    max-height: 240px;
+    width: 100%;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 金句卡折角 */
+.quote-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 26px;
+    height: 26px;
+    background: linear-gradient(225deg, var(--bg-2) 0%, var(--bg-2) 50%, transparent 50%, transparent 100%);
+    border-bottom-left-radius: 8px;
+}
+
+.countdown-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+    position: relative;
+}
+
+.countdown-panel-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+    font-family: var(--font-hand);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.countdown-panel-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+    background: var(--marker-soft);
+    border-radius: 2px;
+}
+
+.countdown-items-container {
+    background: rgba(120, 100, 60, 0.05);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.settings-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 25px;
+    box-shadow: var(--shadow);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    transform: translateY(0);
+    transition: transform 0.4s ease, box-shadow 0.3s ease;
+    z-index: 10;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-open .settings-panel {
+    transform: translateY(-100%);
+    overflow: hidden;
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.settings-header h2 {
+    font-size: 1.6rem;
+    color: var(--text);
+    font-family: var(--font-hand);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.settings-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-height: calc(85vh - 100px);
+    overflow-y: auto;
+    padding-right: 10px;
+    flex: 1;
+}
+
+.settings-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

@@ -1,0 +1,357 @@
+/* ============================================================
+   套装：霓虹都市（赛博朋克·霓虹全息）—— 完整独立 CSS 包
+   ============================================================
+   在相同 HTML 结构下，通过 body.outfit-cyberpunk 作用域完全重排
+   布局、重做组件形态、换字体/装饰。配色交由主题变量控制。
+   元素：霓虹辉光、机械切角、扫描线、网格背景、故障感、全息。
+   功能与 JS 逻辑不变。 */
+
+/* ---------- 1. 全局氛围：暗底 + 机械扫描 + 网格 ---------- */
+body.outfit-cyberpunk {
+    --radius: 10px;
+    --radius-sm: 6px;
+    --time-block-bg: rgba(0, 240, 255, 0.08);
+    --marker-soft: rgba(0, 240, 255, 0.12);
+    --paper-noise: none;
+    --shadow-near: 0 0 12px color-mix(in srgb, var(--primary) 40%, transparent);
+    --shadow-far: 0 0 34px color-mix(in srgb, var(--secondary) 35%, transparent);
+    --shadow: 0 0 20px color-mix(in srgb, var(--primary) 30%, transparent);
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    /* 网格线 + 扫描线 + 霓虹晕 */
+    background-image:
+        linear-gradient(rgba(0,240,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,240,255,0.05) 1px, transparent 1px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 4px),
+        radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--primary) 16%, transparent), transparent 45%),
+        radial-gradient(circle at 80% 30%, color-mix(in srgb, var(--secondary) 14%, transparent), transparent 45%);
+    background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%, 100% 100%;
+}
+
+/* 霓虹主题默认配色（深色系兜底，可由主题覆盖） */
+body.outfit-cyberpunk.dark-theme {
+    --primary: #00f0ff;
+    --secondary: #ff2d95;
+    --accent: #f9e000;
+    --text: #e6f7ff;
+    --bg: #0d0f1a;
+    --bg-2: #131627;
+    --card-bg: rgba(13, 15, 26, 0.8);
+    --card-border: rgba(0, 240, 255, 0.35);
+    --gaokao-color: #ff2d95;
+}
+
+/* ---------- 2. 关闭手账装饰 ---------- */
+body.outfit-cyberpunk .card-glass::before,
+body.outfit-cyberpunk .time-section::before,
+body.outfit-cyberpunk .setting-group::before,
+body.outfit-cyberpunk .drawer-tape,
+body.outfit-cyberpunk .time-section::after,
+body.outfit-cyberpunk .quote-section::after,
+body.outfit-cyberpunk header::after,
+body.outfit-cyberpunk .logo h1::after,
+body.outfit-cyberpunk .setting-group h3::after,
+body.outfit-cyberpunk .countdown-panel-title::after,
+body.outfit-cyberpunk .drawer-title::after {
+    display: none;
+}
+
+/* ---------- 3. 头部：机械切角面板 ---------- */
+body.outfit-cyberpunk header {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+    padding: 16px 26px;
+    min-height: 80px;
+    position: relative;
+}
+
+/* 头部下缘霓虹线 */
+body.outfit-cyberpunk header::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+    box-shadow: 0 0 12px var(--primary);
+}
+
+body.outfit-cyberpunk .logo h1 {
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: var(--text);
+    text-shadow: 0 0 8px var(--primary), 0 0 20px var(--primary);
+}
+body.outfit-cyberpunk .logo i { color: var(--secondary); filter: drop-shadow(0 0 6px var(--secondary)); }
+
+/* ---------- 4. 主体：机械面板 ---------- */
+body.outfit-cyberpunk .time-section {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-near), var(--shadow-far);
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+    height: 220px;
+    min-height: 220px;
+    max-height: 220px;
+    padding: 26px;
+    position: relative;
+}
+
+/* 时间卡霓虹边框光晕 */
+body.outfit-cyberpunk .time-section::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    clip-path: inherit;
+    border: 1px solid transparent;
+    background: linear-gradient(135deg, var(--primary), transparent 40%, var(--secondary)) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* 时间：七段式数字霓虹辉光 */
+body.outfit-cyberpunk .time-display {
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    gap: 8px;
+    text-shadow: 0 0 6px var(--primary), 0 0 24px var(--primary);
+}
+body.outfit-cyberpunk .time-display > span:not(.colon):not(.milliseconds) {
+    background: var(--time-block-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    min-width: 1.2ch;
+    box-shadow: inset 0 0 12px rgba(0,240,255,0.08);
+}
+body.outfit-cyberpunk .time-display .colon { color: var(--secondary); text-shadow: 0 0 8px var(--secondary); }
+body.outfit-cyberpunk .milliseconds { color: var(--accent); font-family: 'Consolas', monospace; text-shadow: 0 0 6px var(--accent); }
+
+body.outfit-cyberpunk .date-display {
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    border: 1px solid var(--card-border);
+    padding: 5px 16px;
+    border-radius: var(--radius-sm);
+    font-family: 'Consolas', monospace;
+    letter-spacing: 1px;
+    color: var(--primary);
+}
+
+/* 金句卡：全息面板 + 终端代码感 */
+body.outfit-cyberpunk .quote-section {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-near), var(--shadow-far);
+    clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+    position: relative;
+}
+/* 顶部终端状态条 */
+body.outfit-cyberpunk .quote-section::before {
+    content: '● SYSTEM ●';
+    position: absolute;
+    top: 6px;
+    right: 14px;
+    font-family: 'Consolas', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-shadow: 0 0 6px var(--accent);
+    opacity: 0.8;
+}
+body.outfit-cyberpunk .quote-header h2 {
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--secondary);
+    text-shadow: 0 0 8px var(--secondary);
+}
+body.outfit-cyberpunk .quote-content {
+    color: var(--text);
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    padding-left: 30px;
+    position: relative;
+    text-shadow: 0 0 4px color-mix(in srgb, var(--primary) 40%, transparent);
+}
+/* 终端提示符前缀 */
+body.outfit-cyberpunk .quote-content::before {
+    content: '>_';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary);
+    opacity: 0.9;
+    text-shadow: 0 0 8px var(--primary);
+    font-weight: 700;
+}
+body.outfit-cyberpunk .quote-content::after {
+    content: '';
+    position: absolute;
+    left: 26px;
+    bottom: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), transparent);
+    box-shadow: 0 0 8px var(--primary);
+}
+body.outfit-cyberpunk .quote-type {
+    background: color-mix(in srgb, var(--secondary) 14%, transparent);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    color: var(--secondary);
+    letter-spacing: 1px;
+}
+
+/* ---------- 5. 侧栏：机械面板 ---------- */
+body.outfit-cyberpunk .countdown-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+}
+body.outfit-cyberpunk .countdown-panel-title {
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    color: var(--primary);
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+body.outfit-cyberpunk .countdown-item {
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+}
+
+/* ---------- 6. 按钮：霓虹描边 ---------- */
+body.outfit-cyberpunk .btn {
+    background: color-mix(in srgb, var(--primary) 16%, transparent);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    border-radius: var(--radius-sm);
+    text-shadow: 0 0 6px var(--primary);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--primary) 35%, transparent), inset 0 0 8px color-mix(in srgb, var(--primary) 15%, transparent);
+}
+body.outfit-cyberpunk .btn:hover { background: color-mix(in srgb, var(--primary) 26%, transparent); box-shadow: 0 0 20px var(--primary); }
+body.outfit-cyberpunk .btn:active { transform: translateY(1px); }
+body.outfit-cyberpunk .btn-outline { background: transparent; border: 2px solid var(--secondary); color: var(--secondary); text-shadow: none; box-shadow: 0 0 10px color-mix(in srgb, var(--secondary) 30%, transparent); }
+body.outfit-cyberpunk .btn-outline:hover { background: color-mix(in srgb, var(--secondary) 16%, transparent); }
+
+/* ---------- 7. 进度条：霓虹轨道 + 荧光填充 ---------- */
+body.outfit-cyberpunk .progress-container,
+body.outfit-cyberpunk .quote-progress-container {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--card-border);
+    box-shadow: none;
+}
+body.outfit-cyberpunk .progress-bar,
+body.outfit-cyberpunk .quote-progress-bar {
+    background-image: linear-gradient(90deg,
+        color-mix(in srgb, var(--primary) 55%, #000),
+        var(--primary));
+    box-shadow: 0 0 12px var(--primary), 0 0 24px color-mix(in srgb, var(--primary) 40%, transparent);
+}
+/* 时间框微调：霓虹描边 + 辉光 */
+body.outfit-cyberpunk .time-display > span:not(.colon):not(.milliseconds) {
+    border-color: color-mix(in srgb, var(--primary) 40%, var(--card-border));
+    box-shadow: 0 0 12px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+body.outfit-cyberpunk .date-display {
+    border-color: color-mix(in srgb, var(--primary) 35%, var(--card-border));
+}
+
+/* ---------- 8. 设置面板：全息 ---------- */
+body.outfit-cyberpunk .settings-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-near), var(--shadow-far);
+    clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 26px 100%, 0 calc(100% - 26px));
+}
+body.outfit-cyberpunk .settings-header h2 {
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--primary);
+    text-shadow: 0 0 8px var(--primary);
+}
+body.outfit-cyberpunk .setting-group {
+    background: color-mix(in srgb, var(--primary) 6%, var(--card-bg));
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-near);
+}
+body.outfit-cyberpunk .setting-group h3 {
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    color: var(--primary);
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+body.outfit-cyberpunk .preset-btn,
+body.outfit-cyberpunk .action-btn {
+    background: color-mix(in srgb, var(--primary) 8%, transparent);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+}
+body.outfit-cyberpunk .preset-btn.active,
+body.outfit-cyberpunk .tag-filter-item.active {
+    background: color-mix(in srgb, var(--primary) 20%, transparent);
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+/* ---------- 9. 抽屉：全息 ---------- */
+body.outfit-cyberpunk .quick-drawer {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-near), var(--shadow-far);
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+}
+body.outfit-cyberpunk .drawer-title {
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    color: var(--primary);
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+body.outfit-cyberpunk .drawer-item {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    border-radius: var(--radius-sm);
+    text-shadow: 0 0 6px var(--primary);
+}
+body.outfit-cyberpunk .drawer-item:hover { background: color-mix(in srgb, var(--primary) 14%, transparent); }
+
+/* ---------- 10. 浮动按钮：霓虹方块 ---------- */
+body.outfit-cyberpunk .floating-btn {
+    background: var(--card-bg);
+    border: 2px solid var(--secondary);
+    color: var(--secondary);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--secondary) 40%, transparent);
+}
+body.outfit-cyberpunk .floating-btn:hover { background: color-mix(in srgb, var(--secondary) 16%, transparent); transform: translateY(-3px); }
+
+/* ---------- 11. toast：全息 ---------- */
+body.outfit-cyberpunk .toast {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow);
+}

@@ -1,0 +1,290 @@
+/* ============================================================
+   套装：纸墨宣言（Editorial 大字报 · 大胆杂志风）
+   ============================================================
+   彻底颠覆卡片式布局：无圆角卡片、超大无衬线时间数字、
+   细线分隔、杂志网格、强对比。配色交由主题变量控制，
+   默认使用品牌深色（Anthropic 品牌色系）。
+   功能与 JS 逻辑不变。 */
+
+/* ---------- 1. 全局：品牌色 + 杂志排版 ---------- */
+body.outfit-editorial {
+    --radius: 0px;
+    --radius-sm: 0px;
+    --time-block-bg: transparent;
+    --marker-soft: rgba(217, 119, 87, 0.14);
+    --paper-noise: none;
+    --shadow-near: none;
+    --shadow-far: none;
+    --shadow: none;
+    font-family: 'Lora', 'Georgia', serif;
+}
+
+/* 默认品牌深色兜底（可由主题覆盖） */
+body.outfit-editorial.dark-theme {
+    --primary: #d97757;
+    --secondary: #6a9bcc;
+    --accent: #788c5d;
+    --text: #faf9f5;
+    --bg: #141413;
+    --bg-2: #1d1c1a;
+    --card-bg: #141413;
+    --card-border: #2a2926;
+    --gaokao-color: #d97757;
+}
+
+/* 标题字体：Poppins 风格 */
+body.outfit-editorial .logo h1,
+body.outfit-editorial .quote-header h2,
+body.outfit-editorial .countdown-panel-title,
+body.outfit-editorial .settings-header h2,
+body.outfit-editorial .setting-group h3 {
+    font-family: 'Poppins', 'Arial', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+/* ---------- 2. 关闭手账/玻璃装饰 ---------- */
+body.outfit-editorial .card-glass::before,
+body.outfit-editorial .time-section::before,
+body.outfit-editorial .setting-group::before,
+body.outfit-editorial .drawer-tape,
+body.outfit-editorial .time-section::after,
+body.outfit-editorial .quote-section::after,
+body.outfit-editorial header::after,
+body.outfit-editorial .logo h1::after,
+body.outfit-editorial .setting-group h3::after,
+body.outfit-editorial .countdown-panel-title::after,
+body.outfit-editorial .drawer-title::after {
+    display: none;
+}
+
+/* ---------- 3. 头部：极简顶栏 + 底部细线 ---------- */
+body.outfit-editorial header {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--card-border);
+    border-radius: 0;
+    box-shadow: none;
+    padding: 8px 0;
+    min-height: 60px;
+}
+body.outfit-editorial .logo h1 {
+    color: var(--text);
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+body.outfit-editorial .logo i { color: var(--primary); }
+
+/* ---------- 4. 主体：超大时间数字主导 ---------- */
+body.outfit-editorial .time-section {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    height: 280px;
+    min-height: 280px;
+    max-height: 280px;
+    padding: 10px 0;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* 日期：杂志眉标（左对齐） */
+body.outfit-editorial .date-display {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin-bottom: 6px;
+    font-family: 'Poppins', 'Arial', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--primary);
+    text-align: left;
+    width: 100%;
+}
+
+/* 时间：超大无衬线数字，居中占满视觉 + 底部杂志刻度线 */
+body.outfit-editorial .time-display {
+    font-family: 'Poppins', 'Arial', sans-serif;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    font-size: 6.6rem;
+    line-height: 1;
+    gap: 6px;
+    letter-spacing: 0.02em;
+    justify-content: center;
+    width: 100%;
+    padding: 0 0 12px 0;
+    border-bottom: 2px solid var(--primary);
+    position: relative;
+}
+body.outfit-editorial .time-display > span:not(.colon):not(.milliseconds) {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    min-width: auto;
+    box-shadow: none;
+}
+body.outfit-editorial .time-display .colon { color: var(--primary); }
+body.outfit-editorial .milliseconds { color: var(--secondary); font-family: 'Poppins', 'Arial', sans-serif; font-weight: 600; }
+
+/* ---------- 5. 金句卡：杂志引言 ---------- */
+body.outfit-editorial .quote-section {
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
+    border-radius: 0;
+    box-shadow: none;
+    padding: 20px 0;
+}
+body.outfit-editorial .quote-header h2 { color: var(--primary); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.14em; }
+body.outfit-editorial .quote-content {
+    font-family: 'Lora', 'Georgia', serif;
+    font-style: italic;
+    font-size: 2.3rem;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 1px;
+    padding: 10px 0 10px 28px;
+    border-left: 4px solid var(--primary);
+    text-align: left;
+}
+body.outfit-editorial .quote-content::before,
+body.outfit-editorial .quote-content::after { color: var(--primary); opacity: 0.5; }
+body.outfit-editorial .quote-author {
+    font-family: 'Poppins', 'Arial', sans-serif;
+    font-style: normal;
+    text-align: right;
+    padding-right: 0;
+}
+body.outfit-editorial .quote-type {
+    background: transparent;
+    border: 1px solid var(--card-border);
+    border-radius: 0;
+    font-family: 'Poppins', 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.75rem;
+}
+
+/* ---------- 6. 侧栏：列表式 ---------- */
+body.outfit-editorial .countdown-panel {
+    background: transparent;
+    border: none;
+    border-left: 1px solid var(--card-border);
+    border-radius: 0;
+    box-shadow: none;
+    padding-left: 20px;
+}
+body.outfit-editorial .countdown-panel-title { color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.9rem; }
+body.outfit-editorial .countdown-item {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--card-border);
+    border-radius: 0;
+    color: var(--text);
+}
+
+/* ---------- 7. 按钮：极简描边 ---------- */
+body.outfit-editorial .btn {
+    background: transparent;
+    border: 2px solid var(--text);
+    color: var(--text);
+    border-radius: 0;
+    font-family: 'Poppins', 'Arial', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+}
+body.outfit-editorial .btn:hover { background: var(--primary); border-color: var(--primary); color: #141413; }
+body.outfit-editorial .btn-outline { border-color: var(--primary); color: var(--primary); }
+body.outfit-editorial .btn-outline:hover { background: var(--primary); border-color: var(--primary); color: #141413; }
+
+/* ---------- 8. 进度条：杂志刻度 + 主题色实心 ---------- */
+body.outfit-editorial .progress-container,
+body.outfit-editorial .quote-progress-container {
+    background: var(--card-border);
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+body.outfit-editorial .progress-bar,
+body.outfit-editorial .quote-progress-bar {
+    background-image: linear-gradient(90deg, var(--primary), color-mix(in srgb, var(--primary) 60%, var(--accent)));
+    box-shadow: none;
+    border-radius: 0;
+}
+/* 时间框微调：主题色描边（editorial 为无衬线大字） */
+body.outfit-editorial .time-display > span:not(.colon):not(.milliseconds) {
+    border-bottom: 3px solid var(--primary);
+}
+body.outfit-editorial .date-display {
+    border-bottom: 2px solid var(--primary);
+}
+
+/* ---------- 9. 设置面板：报纸版面 ---------- */
+body.outfit-editorial .settings-panel {
+    background: var(--card-bg);
+    border: none;
+    border-top: 2px solid var(--primary);
+    border-radius: 0;
+    box-shadow: none;
+}
+body.outfit-editorial .settings-header h2 { color: var(--text); text-transform: uppercase; }
+body.outfit-editorial .setting-group {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--card-border);
+    border-radius: 0;
+    box-shadow: none;
+    padding: 14px 0;
+}
+body.outfit-editorial .setting-group h3 { color: var(--primary); text-transform: uppercase; font-size: 1rem; }
+body.outfit-editorial .preset-btn,
+body.outfit-editorial .action-btn {
+    background: transparent;
+    border: 1px solid var(--card-border);
+    border-radius: 0;
+    color: var(--text);
+}
+body.outfit-editorial .preset-btn.active,
+body.outfit-editorial .tag-filter-item.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #141413;
+}
+
+/* ---------- 10. 抽屉 ---------- */
+body.outfit-editorial .quick-drawer {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 0;
+    box-shadow: none;
+}
+body.outfit-editorial .drawer-title { color: var(--primary); text-transform: uppercase; }
+body.outfit-editorial .drawer-item { border: 2px solid var(--text); color: var(--text); border-radius: 0; font-family: 'Poppins','Arial',sans-serif; }
+body.outfit-editorial .drawer-item:hover { background: var(--primary); border-color: var(--primary); color: #141413; }
+
+/* ---------- 11. 浮动按钮：方形 ---------- */
+body.outfit-editorial .floating-btn {
+    background: var(--primary);
+    color: #141413;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    font-weight: 700;
+}
+
+/* ---------- 12. toast ---------- */
+body.outfit-editorial .toast {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 0;
+    box-shadow: none;
+}
