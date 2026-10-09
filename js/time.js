@@ -1,19 +1,34 @@
 // ======================== 北京时间同步 & 时间显示 ========================
 
-async function fetchBeijingTime() {
-    try {
-        let res = await fetch('functions/bj-time.json');
-        if(!res.ok) throw new Error();
-        let data = await res.json();
-        if(data.success && data.originalData && data.originalData.code === 200) {
-            let beijing = new Date(data.originalData.time);
-            timeOffset = beijing - new Date();
-            lastTimeSync = Date.now();
-        } else throw new Error();
-    } catch(e) { 
-        console.error('时间同步失败',e); 
-        timeOffset = 0; 
+// 依次尝试多个时间源，任一成功即用。
+// Netlify 部署时 /.netlify/functions/bj-time 由服务端函数提供（真实校时）；
+// GitHub Pages 等纯静态托管下该请求会 404，自动回退到静态替身文件，
+// 再由 time.js 的 catch 分支回退到访客本机时间。
+function timeSourceCandidates() {
+    let list = [];
+    if (location.hostname.endsWith('netlify.app') || location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        list.push('/.netlify/functions/bj-time');
     }
+    list.push('functions/bj-time.json');
+    return list;
+}
+
+async function fetchBeijingTime() {
+    for (let url of timeSourceCandidates()) {
+        try {
+            let res = await fetch(url, { cache: 'no-store' });
+            if(!res.ok) continue;
+            let data = await res.json();
+            if(data.success && data.originalData && data.originalData.code === 200) {
+                let beijing = new Date(data.originalData.time);
+                timeOffset = beijing - new Date();
+                lastTimeSync = Date.now();
+                return;
+            }
+        } catch(e) { /* 试下一个源 */ }
+    }
+    console.error('时间同步失败：所有时间源均不可用，已回退本机时间');
+    timeOffset = 0;
 }
 
 function updateTimeDisplay() {

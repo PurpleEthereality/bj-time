@@ -1,0 +1,40 @@
+# Netlify 部署配置
+#
+# 本仓库同时服务于两种托管：
+#   - GitHub Pages: https://purpleethereality.github.io/bj-time/  （子路径 /bj-time/）
+#   - Netlify:      根路径 /
+#
+# index.html 里所有资源引用都是相对路径（css/… js/… vendor/…），两种部署
+# 都能正确解析，因此无需为其中之一改写 HTML。
+#
+# 差异只在两处 fetch()，已由 js/time.js 与 js/quote.js 里的
+# timeSourceCandidates() 自动探测 hostname 处理：
+#   - *.netlify.app / localhost → 用 /.netlify/functions/*（真服务端函数）
+#   - 其他（Pages 等纯静态）→ 回退到 functions/*.json 静态替身
+
+[build]
+  # 发布目录就是仓库根目录下的静态资源集合。
+  # functions/ 与 netlify/ 不含页面，但必须保留：
+  #   functions/*.json  → 纯静态托管时的回退数据
+  #   netlify/functions → Netlify 构建期读取（不会被发布为页面）
+  publish = "."
+  functions = "netlify/functions"
+
+# 明确不发布到 CDN 的路径（Netlify 支持在 netlify.toml 里排除）
+# 注：Netlify 会在构建期读取 netlify/ 与 netlify.toml 本身，不对外暴露。
+
+[[headers]]
+  for = "/functions/*"
+  [headers.values]
+    Content-Type = "application/json; charset=utf-8"
+    Cache-Control = "no-store"
+
+# 安全响应头
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# 纯静态托管（如直接拖拽上传或 Pages）下不存在 /.netlify/functions/*，
+# 但前端已做兜底，不会出现白屏。

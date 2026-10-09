@@ -110,8 +110,20 @@ async function downloadExtensionQuotes(silent=false) {
     try {
         elements.extStatus.className = 'status-indicator pulse'; 
         elements.extStatusText.textContent = '下载中...';
-        let res = await fetch('functions/jinju.json');
-        if(!res.ok) throw new Error();
+        // Netlify 上用服务端函数，纯静态托管回退到 functions/jinju.json
+        let urls = [];
+        if (location.hostname.endsWith('netlify.app') || location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+            urls.push('/.netlify/functions/jinju');
+        }
+        urls.push('functions/jinju.json');
+        let res = null;
+        for (let u of urls) {
+            try {
+                let r = await fetch(u, { cache: 'no-store' });
+                if (r.ok) { res = r; break; }
+            } catch(e) { /* 试下一个源 */ }
+        }
+        if(!res) throw new Error();
         let data = await res.json();
         if(data.success && data.contents) {
             let json = JSON.parse(data.contents);

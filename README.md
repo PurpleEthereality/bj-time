@@ -105,4 +105,71 @@ python -m http.server 8899
 
 ## 部署
 
+本仓库**同一份代码同时适配 GitHub Pages 与 Netlify**，无需维护两份文件。
+
+### GitHub Pages（当前已上线）
+
 推送到 `main` 分支后，在仓库 **Settings → Pages** 中选择 `Deploy from a branch` → `main` / `root` 即可。
+
+线上地址：**https://purpleethereality.github.io/bj-time/**
+
+### Netlify
+
+**方式 A：连 GitHub 仓库（推荐）**
+
+1. Netlify → `Add new site` → `Import an existing project` → 选仓库 `bj-time`
+2. 构建设置留空，`netlify.toml` 已声明：
+   ```toml
+   [build]
+     publish = "."
+     functions = "netlify/functions"
+   ```
+3. Deploy。之后每次 push 到 `main` 自动重新部署。
+
+**方式 B：手动拖拽目录**
+
+拖仓库根目录到 Netlify Drop。拖拽方式不启用 `netlify/functions`，
+前端会自动回退到静态替身，站点其余功能完全正常。
+
+### 两种托管为什么能共用一份代码
+
+`index.html` 里所有资源引用都是相对路径（`css/…`、`js/…`、`vendor/…`），
+在 Pages 的 `/bj-time/` 子路径与 Netlify 的根路径 `/` 下都能正确解析，HTML 无需改动。
+
+差异只在两处 `fetch()`，由 `js/time.js` 与 `js/quote.js` 里的
+`timeSourceCandidates()` **自动探测 hostname**：
+
+| 运行环境 | 时间源 | 名句源 |
+|---|---|---|
+| `*.netlify.app`、`localhost`、`127.0.0.1` | `/.netlify/functions/bj-time`（**真服务端校时**） | `/.netlify/functions/jinju` |
+| 其他（Pages 等纯静态托管） | `functions/bj-time.json` | `functions/jinju.json` |
+
+顺序是「函数优先，静态兜底」：即使在 Netlify 上函数异常也会自动落到静态文件，不会白屏。
+
+### Netlify 上的真服务端校时
+
+`netlify/functions/bj-time.js` 依次尝试多个时间源，任一成功即返回：
+
+1. `f.m.suning.com/api/ct.do`（国内源，优先）
+2. `timeapi.io/api/Time/current/zone?timeZone=Asia/Shanghai`
+
+返回结构刻意与原站保持一致（`js/time.js` 读 `data.originalData.code` 与 `data.originalData.time`）：
+
+```json
+{"success":true,"source":"suning","originalData":{"code":200,"time":"2026-10-09T03:57:00.313Z"}}
+```
+
+函数带**偏差保护**：返回值与本地时间相差超过 24 小时即视为异常源，换下一个，
+避免把访客时钟带跑偏。
+
+`netlify/functions/jinju.js` 直接读取仓库里已发布的 `functions/jinju.json` 作为数据源，
+保证函数与静态两条路径**数据同源、不可能漂移**。
+
+### 上线前已验证
+
+- 两个函数 handler 直接调用：18 项断言全部通过
+- 时间源实测偏差 **0 秒**，确认**无 8 小时时区错位**（最高风险项）
+- hostname 分支逻辑：5 种场景全部正确，Netlify 环境函数优先于静态回退
+- 浏览器实测：Netlify 环境下确实命中 `/.netlify/functions/*` 服务端函数
+- 浏览器实测：纯静态环境下 `/.netlify/*` 返回 404 后自动回退到 `functions/*.json`
+- 4 个改动文件 `node --check` 全部通过
